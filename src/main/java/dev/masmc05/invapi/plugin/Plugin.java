@@ -8,14 +8,17 @@ import java.util.ServiceLoader;
 public class Plugin extends JavaPlugin {
     @Override
     public void onEnable() {
-        if (ServiceLoader.load(Api.class, Plugin.class.getClassLoader())
+        var api = ServiceLoader.load(Api.class, Plugin.class.getClassLoader())
                 .stream()
                 .map(ServiceLoader.Provider::get)
                 .filter(Api::isSupported)
                 .findFirst()
-                .isEmpty()) {
+                .orElse(null);
+        if (api == null) {
             getLogger().severe("The server version is not supported by the Inventory API. Disabling...");
             getServer().getPluginManager().disablePlugin(this);
+            return;
         }
+        api.register(this);
     }
 }

@@ -14,7 +14,7 @@ import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftInventoryView;
 import org.bukkit.inventory.InventoryView;
 import org.jetbrains.annotations.NotNull;
 
-public class ChestMenu extends AbstractContainerMenu {
+public class ChestMenu extends AbstractContainerMenu implements ApiMenu {
     protected static final int SLOTS_PER_ROW = 9;
 
     protected final Container container;

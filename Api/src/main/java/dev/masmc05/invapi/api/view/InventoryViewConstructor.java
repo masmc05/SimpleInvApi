@@ -1,6 +1,7 @@
 package dev.masmc05.invapi.api.view;
 
 import dev.masmc05.invapi.api.slot.Slot;
+import dev.masmc05.invapi.api.slot.SlotAccess;
 import net.kyori.adventure.text.Component;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
@@ -53,14 +54,18 @@ public interface InventoryViewConstructor {
      * @param index the index
      * @return the slot
      */
-    @NotNull Slot createPlayerInventorySlot(int index);
+    default @NotNull Slot createPlayerInventorySlot(int index) {
+        return new SlotAccess(this.getPlayerInventory(), index);
+    }
 
     /**
      * Creates a slot which maps to a slot in the hotbar.
      * @param index the index
      * @return the slot
      */
-    @NotNull Slot createHotbarSlot(int index);
+    default @NotNull Slot createHotbarSlot(int index) {
+        return new SlotAccess(this.getPlayerInventory(), index);
+    }
 
     /**
      * Creates a slot which maps to a slot in the additional slots.
