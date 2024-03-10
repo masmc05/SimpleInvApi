@@ -20,6 +20,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
     implementation(projects.api)
     implementation(project(":v1_20_4", "reobf"))
+    implementation(project(":v1_20_2", "reobf"))
 }
 
 tasks {
