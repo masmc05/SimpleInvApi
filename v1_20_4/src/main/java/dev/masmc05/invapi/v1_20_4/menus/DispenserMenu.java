@@ -1,8 +1,8 @@
 package dev.masmc05.invapi.v1_20_4.menus;
 
 import dev.masmc05.invapi.api.view.InventoryViewConstructor;
+import dev.masmc05.invapi.v1_20_4.DelegateContainer;
 import dev.masmc05.invapi.v1_20_4.SlotWrapper;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -11,27 +11,29 @@ import net.minecraft.world.item.ItemStack;
 import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftInventory;
 import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftInventoryPlayer;
 import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftInventoryView;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.InventoryView;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DispenserMenu extends AbstractContainerMenu implements ApiMenu {
     protected static final int SLOTS_PER_ROW = 9;
-
-    protected final Container container;
     protected final CraftInventoryView bukkitEntity;
+    private final InventoryViewConstructor constructor;
+    private final List<SlotWrapper> topSlots = new ArrayList<>();
     public DispenserMenu(int syncId, @NotNull InventoryViewConstructor constructor) {
         super(MenuType.GENERIC_3x3, syncId);
-        this.container = ((CraftInventory) constructor.getTopInventory()).getInventory();
+        this.constructor = constructor;
         var playerInventory = ((CraftInventoryPlayer) constructor.getPlayerInventory()).getInventory();
-
-        this.bukkitEntity = new CraftInventoryView(playerInventory.player.getBukkitEntity(), new CraftInventory(this.container), this);
 
         int l;
         int i1;
 
         for (l = 0; l < 3; ++l) {
             for (i1 = 0; i1 < 3; ++i1) {
-                this.addSlot(constructor.createTopSlot(i1 + l * 3));
+                this.addTopSlot(constructor.createTopSlot(i1 + l * 3));
             }
         }
 
@@ -44,7 +46,28 @@ public class DispenserMenu extends AbstractContainerMenu implements ApiMenu {
         for (l = 0; l < SLOTS_PER_ROW; ++l) {
             this.addSlot(constructor.createHotbarSlot(l));
         }
+        this.bukkitEntity = new CraftInventoryView(playerInventory.player.getBukkitEntity(), new CraftInventory(new DelegateContainer<>(this)), this);
+    }
 
+
+    private void addTopSlot(dev.masmc05.invapi.api.slot.Slot topSlot) {
+        var wrap = new SlotWrapper(topSlot);
+        this.topSlots.add(wrap);
+        this.addSlot(wrap);
+    }
+
+    @Override
+    public @NotNull List<SlotWrapper> getTopSlots() {
+        return this.topSlots;
+    }
+
+    @Override
+    public @NotNull InventoryHolder getOwner() {
+        return this.constructor;
+    }
+    @Override
+    public boolean isTopSlot(int slot) {
+        return slot < 9;
     }
 
     protected void addSlot(dev.masmc05.invapi.api.slot.Slot slot) {

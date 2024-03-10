@@ -15,6 +15,10 @@ public class SlotWrapper extends Slot {
         this.apiSlot = slot;
     }
 
+    public dev.masmc05.invapi.api.slot.Slot getApiSlot() {
+        return this.apiSlot;
+    }
+
     @Override
     public @NotNull ItemStack getItem() {
         return this.container.getItem(this.getContainerSlot());

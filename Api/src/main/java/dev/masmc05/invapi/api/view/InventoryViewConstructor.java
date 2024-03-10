@@ -5,6 +5,7 @@ import dev.masmc05.invapi.api.slot.SlotAccess;
 import net.kyori.adventure.text.Component;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
  * Defines data necessary to construct an inventory view.
  */
 @ApiStatus.OverrideOnly
-public interface InventoryViewConstructor {
+public interface InventoryViewConstructor extends InventoryHolder {
     /**
      * Gets the top inventory of this view.
      * @return the top inventory
@@ -48,6 +49,11 @@ public interface InventoryViewConstructor {
      * @return the slot
      */
     @NotNull Slot createTopSlot(int index);
+
+    @Override
+    default @NotNull Inventory getInventory() {
+        return this.getTopInventory();
+    }
 
     /**
      * Creates a slot which maps to a slot in the player inventory.
