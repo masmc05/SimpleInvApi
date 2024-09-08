@@ -1,16 +1,16 @@
-package dev.masmc05.invapi.v1_20_2.menus;
+package dev.masmc05.invapi.menus;
 
 import dev.masmc05.invapi.api.view.InventoryViewConstructor;
-import dev.masmc05.invapi.v1_20_2.DelegateContainer;
-import dev.masmc05.invapi.v1_20_2.SlotWrapper;
+import dev.masmc05.invapi.DelegateContainer;
+import dev.masmc05.invapi.SlotWrapper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.craftbukkit.v1_20_R2.inventory.CraftInventory;
-import org.bukkit.craftbukkit.v1_20_R2.inventory.CraftInventoryPlayer;
-import org.bukkit.craftbukkit.v1_20_R2.inventory.CraftInventoryView;
+import org.bukkit.craftbukkit.inventory.CraftInventory;
+import org.bukkit.craftbukkit.inventory.CraftInventoryPlayer;
+import org.bukkit.craftbukkit.inventory.CraftInventoryView;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.InventoryView;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +21,7 @@ import java.util.List;
 public class ChestMenu extends AbstractContainerMenu implements ApiMenu {
     protected static final int SLOTS_PER_ROW = 9;
     protected final int containerRows;
-    protected final CraftInventoryView bukkitEntity;
+    protected final CraftInventoryView<ChestMenu> bukkitEntity;
     private final InventoryViewConstructor constructor;
     private final List<SlotWrapper> topSlots = new ArrayList<>();
 
@@ -52,7 +52,7 @@ public class ChestMenu extends AbstractContainerMenu implements ApiMenu {
         for (l = 0; l < SLOTS_PER_ROW; ++l) {
             this.addSlot(constructor.createHotbarSlot(l));
         }
-        this.bukkitEntity = new CraftInventoryView(playerInventory.player.getBukkitEntity(),
+        this.bukkitEntity = new CraftInventoryView<>(playerInventory.player.getBukkitEntity(),
                 new CraftInventory(new DelegateContainer<>(this)),
                 this);
 
@@ -62,11 +62,6 @@ public class ChestMenu extends AbstractContainerMenu implements ApiMenu {
         var wrap = new SlotWrapper(topSlot);
         this.topSlots.add(wrap);
         this.addSlot(wrap);
-    }
-
-    @Override
-    public boolean isTopSlot(int slot) {
-        return slot < this.containerRows * SLOTS_PER_ROW;
     }
 
     @Override

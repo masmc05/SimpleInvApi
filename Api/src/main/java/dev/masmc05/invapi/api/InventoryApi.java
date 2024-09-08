@@ -14,16 +14,13 @@ import java.util.function.Consumer;
 /**
  * The main API class for the Inventory API.
  */
+@SuppressWarnings("unused")
 public class InventoryApi {
     private InventoryApi() {
         throw new IllegalStateException("Utility class");
     }
     private static final Api api = ServiceLoader.load(Api.class, Api.class.getClassLoader())
-            .stream()
-            .map(ServiceLoader.Provider::get)
-            .filter(Api::isSupported)
-            .findFirst()
-            .orElseThrow(() -> new IllegalStateException("No supported inventory API found"));
+            .findFirst().orElseThrow(() -> new IllegalStateException("No supported inventory API found"));
 
     /**
      * Creates a new flexible inventory with the specified size.

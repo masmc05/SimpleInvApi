@@ -1,10 +1,10 @@
-package dev.masmc05.invapi.v1_20_4;
+package dev.masmc05.invapi;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftInventory;
-import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.inventory.CraftInventory;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class SlotWrapper extends Slot {

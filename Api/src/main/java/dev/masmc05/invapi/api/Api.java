@@ -3,7 +3,6 @@ package dev.masmc05.invapi.api;
 import dev.masmc05.invapi.api.view.InventoryViewConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,18 +13,6 @@ import java.util.function.Consumer;
  */
 @ApiStatus.Internal
 public interface Api {
-    /**
-     * Checks if the server version is supported by the API.
-     *
-     * @return true if the server version is supported, false otherwise
-     */
-    boolean isSupported();
-
-    /**
-     * Registers the api with the specified plugin.
-     * @param plugin the plugin to register with
-     */
-    void register(JavaPlugin plugin);
 
     /**
      * Creates a new flexible inventory with the specified size.

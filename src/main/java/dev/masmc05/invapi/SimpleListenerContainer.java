@@ -1,8 +1,9 @@
-package dev.masmc05.invapi.v1_20_4;
+package dev.masmc05.invapi;
 
 import net.minecraft.world.SimpleContainer;
-import org.bukkit.craftbukkit.v1_20_R3.entity.CraftHumanEntity;
+import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
@@ -16,7 +17,7 @@ public class SimpleListenerContainer extends SimpleContainer {
     }
 
     @Override
-    public void onOpen(CraftHumanEntity who) {
+    public void onOpen(@NotNull CraftHumanEntity who) {
         super.onOpen(who);
         if (who instanceof Player player) {
             onOpen.accept(player);
@@ -24,7 +25,7 @@ public class SimpleListenerContainer extends SimpleContainer {
     }
 
     @Override
-    public void onClose(CraftHumanEntity who) {
+    public void onClose(@NotNull CraftHumanEntity who) {
         super.onClose(who);
         if (who instanceof Player player) {
             onClose.accept(player);

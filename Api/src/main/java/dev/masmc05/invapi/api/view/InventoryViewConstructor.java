@@ -1,19 +1,20 @@
 package dev.masmc05.invapi.api.view;
 
+import dev.masmc05.invapi.api.InventoryApi;
 import dev.masmc05.invapi.api.slot.Slot;
 import dev.masmc05.invapi.api.slot.SlotAccess;
 import net.kyori.adventure.text.Component;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.PlayerInventory;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Defines data necessary to construct an inventory view.
  */
-@ApiStatus.OverrideOnly
+@SuppressWarnings("unused")
 public interface InventoryViewConstructor extends InventoryHolder {
     /**
      * Gets the top inventory of this view.
@@ -80,6 +81,10 @@ public interface InventoryViewConstructor extends InventoryHolder {
      */
     default @NotNull Slot createAdditionalSlot(int index) {
         throw new UnsupportedOperationException("Additional slots are not supported by this constructor.");
+    }
+
+    default void openMenu(Player player) {
+        InventoryApi.createAndOpen(player, this);
     }
 
     /**

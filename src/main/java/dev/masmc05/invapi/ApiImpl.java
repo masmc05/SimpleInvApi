@@ -1,11 +1,11 @@
-package dev.masmc05.invapi.v1_20_4;
+package dev.masmc05.invapi;
 
 import com.google.common.base.Preconditions;
+import dev.masmc05.invapi.api.Api;
 import dev.masmc05.invapi.api.view.InventoryViewConstructor;
-import dev.masmc05.invapi.v1_20_4.menus.ChestMenu;
-import dev.masmc05.invapi.v1_20_4.menus.DispenserMenu;
+import dev.masmc05.invapi.menus.ChestMenu;
+import dev.masmc05.invapi.menus.DispenserMenu;
 import io.papermc.paper.adventure.PaperAdventure;
-import net.minecraft.SharedConstants;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
@@ -13,33 +13,25 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftInventory;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.craftbukkit.inventory.CraftInventory;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
-public class Delegate {
-    public static boolean isSupported() {
-        try {
-            return SharedConstants.getCurrentVersion().getId().equals("1.20.4");
-        } catch (Throwable t) {
-            return false;
-        }
-    }
+public class ApiImpl implements Api, Listener {
 
-    public static void join(PlayerJoinEvent event) {
-        var player = (CraftPlayer) event.getPlayer();
-        player.getHandle().connection.connection.channel.pipeline().addBefore("packet_handler", "invapi", new InvApiPacketHandler(player.getHandle()));
-    }
-    public static @NotNull Inventory createFlexibleInventory(int size, @NotNull Consumer<Player> onOpen, @NotNull Consumer<Player> onClose) {
+    @Override
+    public @NotNull Inventory createFlexibleInventory(int size, @NotNull Consumer<Player> onOpen, @NotNull Consumer<Player> onClose) {
         return new CraftInventory(new SimpleListenerContainer(size, onOpen, onClose));
     }
-    public static @NotNull Inventory createSimpleCopy(@NotNull Inventory inventory) {
+
+    @Override
+    public @NotNull Inventory createSimpleCopy(@NotNull Inventory inventory) {
         if (inventory instanceof CraftInventory craftInventory) {
             var handle = craftInventory.getInventory();
             if (handle instanceof SimpleContainer simpleContainer) {
@@ -62,7 +54,9 @@ public class Delegate {
             return inv;
         }
     }
-    public static void createAndOpen(@NotNull Player player, @NotNull InventoryViewConstructor constructor) {
+
+    @Override
+    public void createAndOpen(@NotNull Player player, @NotNull InventoryViewConstructor constructor) {
         Preconditions.checkArgument(constructor.getType() == InventoryType.CHEST || constructor.getType() == InventoryType.DISPENSER, "Only chest and dispenser inventories are supported at the moment");
         ServerPlayer player1 = ((CraftPlayer) player).getHandle();
         MenuProvider provider = switch (constructor.getType()) {

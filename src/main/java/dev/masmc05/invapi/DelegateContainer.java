@@ -1,13 +1,13 @@
-package dev.masmc05.invapi.v1_20_2;
+package dev.masmc05.invapi;
 
 import com.google.common.collect.ImmutableSet;
-import dev.masmc05.invapi.v1_20_2.menus.ApiMenu;
+import dev.masmc05.invapi.menus.ApiMenu;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_20_R2.entity.CraftHumanEntity;
+import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
