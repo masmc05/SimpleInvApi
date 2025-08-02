@@ -21,7 +21,7 @@ import java.util.List;
 public class ChestMenu extends AbstractContainerMenu implements ApiMenu {
     protected static final int SLOTS_PER_ROW = 9;
     protected final int containerRows;
-    protected final CraftInventoryView<ChestMenu> bukkitEntity;
+    protected final CraftInventoryView<ChestMenu, CraftInventory> bukkitEntity;
     private final InventoryViewConstructor constructor;
     private final List<SlotWrapper> topSlots = new ArrayList<>();
 

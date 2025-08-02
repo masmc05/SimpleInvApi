@@ -20,7 +20,7 @@ import java.util.List;
 
 public class DispenserMenu extends AbstractContainerMenu implements ApiMenu {
     protected static final int SLOTS_PER_ROW = 9;
-    protected final CraftInventoryView<DispenserMenu> bukkitEntity;
+    protected final CraftInventoryView<DispenserMenu, CraftInventory> bukkitEntity;
     private final InventoryViewConstructor constructor;
     private final List<SlotWrapper> topSlots = new ArrayList<>();
     public DispenserMenu(int syncId, @NotNull InventoryViewConstructor constructor) {

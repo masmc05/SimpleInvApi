@@ -1,9 +1,9 @@
 
 plugins {
     `java-library`
-    id("io.papermc.paperweight.userdev") version "1.7.2"
-    id("net.minecrell.plugin-yml.paper") version "0.6.0"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.18"
+    id("de.eldoria.plugin-yml.paper") version "0.7.1"
+    id("com.gradleup.shadow") version "9.0.0-rc3"
     id("xyz.jpenilla.run-paper") version "2.3.1" // Adds runServer and runMojangMappedServer tasks for testing
 }
 group = "dev.masmc05"
@@ -18,7 +18,7 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
 }
 dependencies {
-    paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.21.8-R0.1-SNAPSHOT")
     implementation(projects.api)
 }
 
@@ -28,7 +28,7 @@ tasks {
         dependsOn(shadowJar)
     }
     runServer {
-        minecraftVersion("1.21.1")
+        minecraftVersion("1.21.8")
         systemProperty("terminal.jline", false)
         systemProperty("terminal.ansi", true)
     }
@@ -47,6 +47,6 @@ paper {
     name = "SimpleInvApi"
     version = " "
     main = "dev.masmc05.invapi.Plugin"
-    apiVersion = "1.21.1"
+    apiVersion = "1.21.8"
     author = "masmc05"
 }
